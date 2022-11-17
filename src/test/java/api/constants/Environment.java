@@ -10,6 +10,4 @@ public enum Environment {
 	TESTING("https://testing.env");
 
 	private final String baseUrl;
-
-	//TODO: handle some logger for Testing environment
 }

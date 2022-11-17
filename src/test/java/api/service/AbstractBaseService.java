@@ -16,7 +16,7 @@ import io.restassured.specification.RequestSpecification;
 public abstract class AbstractBaseService {
 
 	protected final Logger logger = LogManager.getLogger(this);
-	private Environment defaultEnv = Environment.LOCAL;
+	private final Environment defaultEnv = Environment.LOCAL;
 
 	protected RequestSpecification getRequestSpec() {
 		var loggerPrintStream = IoBuilder.forLogger(logger).buildPrintStream();
@@ -35,6 +35,27 @@ public abstract class AbstractBaseService {
 				.header("User-Agent", "PostmanRuntime/7.26.8")
 				.accept(ContentType.ANY)
 				.contentType(ContentType.JSON);
+	}
+
+	protected RequestSpecification setBody(Object object) {
+		return pretendToBePostman().body(object);
+	}
+
+	protected Response get(RequestSpecification requestSpecification,
+			TradingEndpoint tradingEndpoint) {
+		return requestSpecification
+				.get(tradingEndpoint.getUrl(defaultEnv))
+				.then()
+				.extract()
+				.response();
+	}
+
+	protected Response get(TradingEndpoint tradingEndpoint) {
+		return pretendToBePostman()
+				.get(tradingEndpoint.getUrl(defaultEnv))
+				.then()
+				.extract()
+				.response();
 	}
 
 	protected Response post(RequestSpecification requestSpecification,

@@ -13,8 +13,7 @@ public class UserService extends AbstractBaseService {
 				.username(username)
 				.password(password)
 				.build();
-		return pretendToBePostman()
-				.body(user);
+		return setBody(user);
 	}
 
 	public Response postTheUser(RequestSpecification requestSpecification) {
