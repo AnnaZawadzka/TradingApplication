@@ -1,29 +1,33 @@
 package cucumber.stepDefinitions;
 
+import static org.junit.Assert.assertEquals;
+
+import org.apache.http.HttpStatus;
+
+import api.service.UserService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 public class UserSteps {
+	private final UserService userService = new UserService();
+	private RequestSpecification requestSpecification;
+	private Response response;
 
-	@Given("I have filled username with {string}")
-	public void i_have_filled_username_with(String username) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	@Given("^I have filled username with \"([^\"]*)\" and password with \"([^\"]*)\"$")
+	public void i_have_filled_username_with_and_password_with(String username, String password) {
+		requestSpecification = userService.setUserPayload(username, password);
 	}
-//	@Given("I have filled password with {string}")
-//	public void i_have_filled_password_with(String string) {
-//		// Write code here that turns the phrase above into concrete actions
-//		throw new io.cucumber.java.PendingException();
-//	}
-//	@When("I post the user")
-//	public void i_post_the_user() {
-//		// Write code here that turns the phrase above into concrete actions
-//		throw new io.cucumber.java.PendingException();
-//	}
-//	@Then("the response is {int}")
-//	public void the_response_is(Integer int1) {
-//		// Write code here that turns the phrase above into concrete actions
-//		throw new io.cucumber.java.PendingException();
-//	}
+
+	@When("^I post the request$")
+	public void i_post_the_request() {
+		response = userService.postTheUser(requestSpecification);
+	}
+
+	@Then("^the user is created$")
+	public void the_user_is_created() {
+		assertEquals(HttpStatus.SC_CREATED, response.getStatusCode());
+	}
 }

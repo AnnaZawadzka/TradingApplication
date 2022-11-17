@@ -1,10 +1,9 @@
 Feature: Add user to database
 
   Scenario Outline: Create a new user
-    Given I have filled username with <username>
-    And I have filled password with <password>
+    Given I have filled username with "<username>" and password with "<password>"
     When I post the request
-    Then the response is 200
+    Then the user is created
 
     Examples:
       | username | password |

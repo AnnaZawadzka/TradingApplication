@@ -1,5 +1,4 @@
 Feature: Trade controller cases
-
   Scenario Outline:
     Given one security <security> and two users <user1> and <user2> exist
     When user <user1> puts a buy order for security <security> with a price of <price1> and quantity of <qty1>
