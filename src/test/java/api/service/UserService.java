@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import api.constants.TradingEndpoint;
-import api.dto.Security;
 import api.dto.User;
 import io.restassured.response.Response;
 
@@ -24,20 +23,20 @@ public class UserService extends AbstractBaseService {
 	public boolean checkIfUserExist(String name) {
 		return getListOfUsers()
 				.stream()
-				.anyMatch(security -> security.getName().equals(name));
+				.anyMatch(user -> user.getUsername().equals(name));
 	}
 
-	public List<Security> getListOfUsers() {
+	public List<User> getListOfUsers() {
 		return get(USERS_URI)
 				.jsonPath()
-				.getList(".", Security.class);
+				.getList(".", User.class);
 	}
 
 	public String getUserIdByName(String name) {
 		return getListOfUsers()
 				.stream()
 				.filter(user -> user
-						.getName()
+						.getUsername()
 						.equals(name))
 				.findFirst()
 				.orElseThrow(() -> new NoSuchElementException(
