@@ -1,22 +1,47 @@
 package api.service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import api.constants.TradingEndpoint;
+import api.dto.Security;
 import api.dto.User;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 public class UserService extends AbstractBaseService {
 
-	public RequestSpecification setUserPayload(String username, String password) {
+	public static final TradingEndpoint USERS_URI = TradingEndpoint.USERS;
+
+	public Response postTheUser(String username, String password) {
 		var user = User
 				.builder()
 				.username(username)
 				.password(password)
 				.build();
-		return setBody(user);
+		return post(USERS_URI, user);
 	}
 
-	public Response postTheUser(RequestSpecification requestSpecification) {
-		return post(requestSpecification, TradingEndpoint.USERS);
+	public boolean checkIfUserExist(String name) {
+		return getListOfUsers()
+				.stream()
+				.anyMatch(security -> security.getName().equals(name));
+	}
+
+	public List<Security> getListOfUsers() {
+		return get(USERS_URI)
+				.jsonPath()
+				.getList(".", Security.class);
+	}
+
+	public String getUserIdByName(String name) {
+		return getListOfUsers()
+				.stream()
+				.filter(user -> user
+						.getName()
+						.equals(name))
+				.findFirst()
+				.orElseThrow(() -> new NoSuchElementException(
+						String.format("The object with name %s not found", name)))
+				.getId();
 	}
 }

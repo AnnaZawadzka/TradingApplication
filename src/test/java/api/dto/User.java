@@ -4,13 +4,17 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.Value;
 
-@Value
 @ToString
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class User {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	String id;

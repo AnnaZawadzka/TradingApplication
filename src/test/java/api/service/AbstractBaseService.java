@@ -41,6 +41,15 @@ public abstract class AbstractBaseService {
 		return pretendToBePostman().body(object);
 	}
 
+	protected Response post(TradingEndpoint tradingEndpoint, Object object) {
+		return pretendToBePostman()
+				.body(object)
+				.post(tradingEndpoint.getUrl(defaultEnv))
+				.then()
+				.extract()
+				.response();
+	}
+
 	protected Response get(RequestSpecification requestSpecification,
 			TradingEndpoint tradingEndpoint) {
 		return requestSpecification
@@ -57,20 +66,6 @@ public abstract class AbstractBaseService {
 				.extract()
 				.response();
 	}
-
-	protected Response post(RequestSpecification requestSpecification,
-			TradingEndpoint tradingEndpoint) {
-		return requestSpecification
-				.post(tradingEndpoint.getUrl(defaultEnv))
-				.then()
-				.extract()
-				.response();
-	}
-
-	//	protected ResponseSpecification getResponseSpec() {
-	//		return RestAssured.expect().response()
-	//				.statusCode(HttpStatus.SC_OK);
-	//	}
 
 	//TODO: think if it's needed
 
