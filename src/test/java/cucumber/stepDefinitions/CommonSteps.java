@@ -1,6 +1,5 @@
 package cucumber.stepDefinitions;
 
-import api.constants.ContextKey;
 import api.dto.Security;
 import api.dto.User;
 import api.service.SecurityService;
@@ -26,22 +25,11 @@ public class CommonSteps {
 	@Given("^one security \"([^\"]*)\" and two users \"([^\"]*)\" and \"([^\"]*)\" exist$")
 	public void one_security_and_two_users_and_exist(String securityName, String user1,
 			String user2) {
-		if (!securityService.checkIfSecurityExist(securityName)) {
-			securityService.postTheSecurity(securityName);
-		}
-		Security security = securityService.getSecurityByName(securityName);
+		Security security = securityService.getOrCreateSecurity(securityName);
 		scenarioContext.setContext(securityName, security);
-
-		if (!userService.checkIfUserExist(user1)) {
-			userService.postTheUser(user1, user1);
-		}
-		User diamond = userService.getUserByName(user1);
+		User diamond = userService.getOrCreateUser(user1, user1);
 		scenarioContext.setContext(user1, diamond);
-
-		if (!userService.checkIfUserExist(user2)) {
-			userService.postTheUser(user2, user2);
-		}
-		User paper = userService.getUserByName(user2);
+		User paper = userService.getOrCreateUser(user2, user2);
 		scenarioContext.setContext(user2, paper);
 	}
 }

@@ -1,7 +1,6 @@
 package api.service;
 
 import api.constants.TradingEndpoint;
-import api.dto.Trade;
 import io.restassured.response.Response;
 
 public class TradeService extends AbstractBaseService {

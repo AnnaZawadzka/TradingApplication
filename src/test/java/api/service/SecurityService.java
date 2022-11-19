@@ -1,7 +1,7 @@
 package api.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import api.constants.TradingEndpoint;
 import api.dto.Security;
@@ -9,34 +9,33 @@ import io.restassured.response.Response;
 
 public class SecurityService extends AbstractBaseService {
 
-	public Response postTheSecurity(String name) {
-		var security = Security
-				.builder()
-				.name(name)
-				.build();
-		return post(TradingEndpoint.SECURITIES, security);
+	public Security getOrCreateSecurity(String securityName) {
+		Response response = get(TradingEndpoint.SECURITIES);
+		if (response.contentType().isBlank()) {
+			createSecurity(securityName);
+			return getOrCreateSecurity(securityName);
+		}
+		List<Security> securities = parseToSecurities(response);
+		Optional<Security> security = getSecurityByName(securities, securityName);
+		if (security.isPresent()) {
+			return security.get();
+		} else {
+			createSecurity(securityName);
+			return getOrCreateSecurity(securityName);
+		}
 	}
 
-	public boolean checkIfSecurityExist(String name) {
-		return getListOfSecurities()
-				.stream()
-				.anyMatch(security -> security.getName().equals(name));
+	private void createSecurity(String securityName) {
+		var security = Security.builder().name(securityName).build();
+		post(TradingEndpoint.SECURITIES, security);
 	}
 
-	public List<Security> getListOfSecurities() {
-		return get(TradingEndpoint.SECURITIES)
-				.jsonPath()
-				.getList(".", Security.class);
+	private List<Security> parseToSecurities(Response response) {
+		return response.jsonPath().getList(".", Security.class);
 	}
 
-	public Security getSecurityByName(String securityName) throws NoSuchElementException{
-		return getListOfSecurities()
-				.stream()
-				.filter(security -> security
-						.getName()
-						.equals(securityName))
-				.findFirst()
-				.orElseThrow(() -> new NoSuchElementException(
-						String.format("The object with name %s not found", securityName)));
+	private Optional<Security> getSecurityByName(List<Security> securities, String securityName) {
+		return securities.stream().filter(security -> security.getName().equals(securityName))
+				.findFirst();
 	}
 }

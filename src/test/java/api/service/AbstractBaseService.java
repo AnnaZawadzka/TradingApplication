@@ -37,23 +37,10 @@ public abstract class AbstractBaseService {
 				.contentType(ContentType.JSON);
 	}
 
-	protected RequestSpecification setBody(Object object) {
-		return pretendToBePostman().body(object);
-	}
-
 	protected Response post(TradingEndpoint tradingEndpoint, Object object) {
 		return pretendToBePostman()
 				.body(object)
 				.post(tradingEndpoint.getUrl(defaultEnv))
-				.then()
-				.extract()
-				.response();
-	}
-
-	protected Response get(RequestSpecification requestSpecification,
-			TradingEndpoint tradingEndpoint) {
-		return requestSpecification
-				.get(tradingEndpoint.getUrl(defaultEnv))
 				.then()
 				.extract()
 				.response();
@@ -66,18 +53,4 @@ public abstract class AbstractBaseService {
 				.extract()
 				.response();
 	}
-
-	//TODO: think if it's needed
-
-	//		protected ExtractableResponse<? extends ResponseOptions<?>> get(String url,
-	//				Map<String, ?> params) {
-	//			return getRequestSpec()
-	//					.params(params)
-	//					.when()
-	//					.get(url)
-	//					.then()
-	//					.spec(getResponseSpec())
-	//					.extract();
-	//		}
-
 }

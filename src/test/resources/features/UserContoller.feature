@@ -6,5 +6,5 @@ Feature: Add user to database
 
     Examples:
       | username | password |
-      | Diamond  | Diamond  |
-      | Paper    | Paper    |
+      | Test     | Test     |
+      | UserTest | User     |

@@ -15,7 +15,7 @@ public class UserSteps {
 	@When("^I have filled username with \"([^\"]*)\" and password with \"([^\"]*)\" and I post the request$")
 	public void i_have_filled_username_with_and_password_with_and_i_post_the_request(
 			String username, String password) {
-		response = new UserService().postTheUser(username, password);
+		response = new UserService().createUser(username, password);
 	}
 
 	@Then("^the user is created$")

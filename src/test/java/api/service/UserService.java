@@ -1,7 +1,7 @@
 package api.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import api.constants.TradingEndpoint;
 import api.dto.User;
@@ -9,37 +9,36 @@ import io.restassured.response.Response;
 
 public class UserService extends AbstractBaseService {
 
-	public static final TradingEndpoint USERS_URI = TradingEndpoint.USERS;
+	public User getOrCreateUser(String userName, String password) {
+		Response response = get(TradingEndpoint.USERS);
+		if (response.contentType().isBlank()) {
+			createUser(userName, password);
+			return getOrCreateUser(userName, password);
+		}
+		List<User> users = parseToUsers(response);
+		Optional<User> user = getUserByName(users, userName);
+		if (user.isPresent()) {
+			return user.get();
+		} else {
+			createUser(userName, password);
+			return getOrCreateUser(userName, password);
+		}
+	}
 
-	public Response postTheUser(String username, String password) {
-		var user = User
-				.builder()
-				.username(username)
+	public Response createUser(String userName, String password) {
+		var security = User.builder()
+				.username(userName)
 				.password(password)
 				.build();
-		return post(USERS_URI, user);
+		return post(TradingEndpoint.USERS, security);
 	}
 
-	public boolean checkIfUserExist(String name) {
-		return getListOfUsers()
-				.stream()
-				.anyMatch(user -> user.getUsername().equals(name));
+	private List<User> parseToUsers(Response response) {
+		return response.jsonPath().getList(".", User.class);
 	}
 
-	public List<User> getListOfUsers() {
-		return get(USERS_URI)
-				.jsonPath()
-				.getList(".", User.class);
-	}
-
-	public User getUserByName(String userName) throws NoSuchElementException {
-		return getListOfUsers()
-				.stream()
-				.filter(user -> user
-						.getUsername()
-						.equals(userName))
-				.findFirst()
-				.orElseThrow(() -> new NoSuchElementException(
-						String.format("The object with name %s not found", userName)));
+	private Optional<User> getUserByName(List<User> users, String userName) {
+		return users.stream().filter(user -> user.getUsername().equals(userName))
+				.findFirst();
 	}
 }

@@ -11,6 +11,7 @@ public enum ContextKey {
 	ORDER_SELL("sell");
 
 	public final String key;
+
 	private ContextKey(String key) {
 		this.key = key;
 	}
