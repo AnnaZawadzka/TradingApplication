@@ -12,5 +12,4 @@ import io.cucumber.junit.CucumberOptions;
 		plugin = { "pretty", "html:target/cucumber.html" })
 
 public class TestRunner {
-
 }

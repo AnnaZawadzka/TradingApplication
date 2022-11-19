@@ -7,7 +7,7 @@ import io.restassured.response.Response;
 
 public class OrderService extends AbstractBaseService {
 
-	public Response postTheOrder(int price, int quantity, String securityId, OrderType type,
+	public Response createOrder(int price, int quantity, String securityId, OrderType type,
 			String userId) {
 		var order = Order
 				.builder()
@@ -16,12 +16,12 @@ public class OrderService extends AbstractBaseService {
 				.securityId(securityId)
 				.type(type)
 				.userId(userId)
-				.fulfilled("true")
+				.fulfilled("false")
 				.build();
 		return post(TradingEndpoint.ORDERS, order);
 	}
 
-	public Order getPostResponse(Response response) {
+	public Order parseToOrder(Response response) {
 		return response
 				.getBody()
 				.jsonPath()

@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.http.HttpStatus;
 
+import api.constants.ContextKey;
 import api.dto.Order;
-import api.dto.Trade;
 import api.service.TradeService;
 import cucumber.ScenarioContext;
 import cucumber.TestContext;
@@ -13,9 +13,9 @@ import io.cucumber.java.en.Then;
 
 public class TradeSteps {
 
-	private TradeService tradeService;
+	private final TradeService tradeService;
 
-	private ScenarioContext scenarioContext;
+	private final ScenarioContext scenarioContext;
 
 	public TradeSteps(TestContext testContext) {
 		tradeService = testContext.getTradeService();
@@ -24,14 +24,13 @@ public class TradeSteps {
 
 	@Then("^a trade occurs with the price of \"(\\d+)\" and quantity of \"(\\d+)\"$")
 	public void a_trade_occurs_with_the_price_of_and_quantity_of(int tradePrice, int tradeQty) {
-		var orderBuyId = ((Order) scenarioContext.getContext("buy")).getId();
-		var orderSellId = ((Order) scenarioContext.getContext("sell")).getId();
-
-		var response = tradeService.getTradeByBuySellId(orderBuyId, orderSellId);
-		var tradeBuySell = response.getBody().as(Trade.class);
+		var orderBuyId = ((Order) scenarioContext.getContext(ContextKey.ORDER_BUY.key)).getId();
+		var orderSellId = ((Order) scenarioContext.getContext(ContextKey.ORDER_SELL.key)).getId();
+		var response = tradeService.getTradeByBuySellIdResponse(orderBuyId, orderSellId);
 		assertEquals("Status code is 200", HttpStatus.SC_OK, response.getStatusCode());
+		var tradeBuySell = tradeService.parseToTrade(response);
 		assertEquals("Trade has a correct price", tradeBuySell.getPrice(),
-				response.getStatusCode());
+				tradePrice, 0.1);
 		assertEquals("Trade has a correct quantity", tradeBuySell.getQuantity(), tradeQty);
 	}
 }

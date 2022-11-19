@@ -12,17 +12,17 @@ public enum TradingEndpoint {
 	SECURITY("/api/securities/%d"),
 	TRADES("/api/trades"),
 	TRADE("/api/trades/%d"),
-	TRADE_BUY_SELL("/api/trades/orderBuyId/{orderBuyId}/orderSellId/{orderSellId}"),
+	TRADE_BUY_SELL("/api/trades/orderBuyId/%s/orderSellId/%s"),
 	USERS("/api/users"),
 	USER("/api/users/%d");
 
 	private final String urlFormat;
 
-	public String getUrl(Environment envConfig, Object... params) {
+	public String getUrl(Environment envConfig, String... params) {
 		return envConfig.getBaseUrl() + getPath(params);
 	}
 
-	private String getPath(Object... params) {
+	private String getPath(String... params) {
 		return String.format(urlFormat, params);
 	}
 }

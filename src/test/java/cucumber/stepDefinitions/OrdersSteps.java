@@ -14,6 +14,7 @@ public class OrdersSteps {
 	private OrderService orderService;
 	private ScenarioContext scenarioContext;
 
+	@SuppressWarnings("unused")
 	public OrdersSteps(TestContext testContext) {
 		orderService = testContext.getOrderService();
 		scenarioContext = testContext.getScenarioContext();
@@ -23,11 +24,10 @@ public class OrdersSteps {
 	public void user_puts_a_order_for_security_with_a_price_of_and_quantity_of
 			(String user, String orderType, String security, int price, int qty) {
 		var securityId = ((Security) scenarioContext.getContext(security)).getId();
-
 		var userId = ((User) scenarioContext.getContext(user)).getId();
 		var response = orderService
-				.postTheOrder(price, qty, securityId, OrderType.valueOfType(orderType), userId);
-		var order = orderService.getPostResponse(response);
+				.createOrder(price, qty, securityId, OrderType.valueOfType(orderType), userId);
+		var order = orderService.parseToOrder(response);
 		scenarioContext.setContext(orderType, order);
 	}
 }

@@ -1,8 +1,5 @@
 package api.constants;
 
-import lombok.Getter;
-
-@Getter
 public enum ContextKey {
 	SECURITY_WSB("WSB"),
 	USER_DIAMOND("Diamond"),
@@ -12,7 +9,7 @@ public enum ContextKey {
 
 	public final String key;
 
-	private ContextKey(String key) {
+	ContextKey(String key) {
 		this.key = key;
 	}
 

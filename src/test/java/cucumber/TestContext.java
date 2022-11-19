@@ -7,11 +7,11 @@ import api.service.UserService;
 
 public class TestContext {
 
-	private OrderService orderService;
-	private SecurityService securityService;
-	private TradeService tradeService;
-	private UserService userService;
-	private ScenarioContext scenarioContext;
+	private final OrderService orderService;
+	private final SecurityService securityService;
+	private final TradeService tradeService;
+	private final UserService userService;
+	private final ScenarioContext scenarioContext;
 
 	public TestContext() {
 		orderService = new OrderService();

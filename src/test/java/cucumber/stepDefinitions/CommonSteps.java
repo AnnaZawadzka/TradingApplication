@@ -16,6 +16,7 @@ public class CommonSteps {
 	private UserService userService;
 	private ScenarioContext scenarioContext;
 
+	@SuppressWarnings("unused")
 	public CommonSteps(TestContext testContext) {
 		securityService = testContext.getSecurityService();
 		userService = testContext.getUserService();

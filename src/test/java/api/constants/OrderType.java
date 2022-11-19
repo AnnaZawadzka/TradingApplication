@@ -4,9 +4,9 @@ public enum OrderType {
 	BUY("buy"),
 	SELL("sell");
 
-	private final String type;
+	public final String type;
 
-	private OrderType(String type) {
+	OrderType(String type) {
 		this.type = type;
 	}
 

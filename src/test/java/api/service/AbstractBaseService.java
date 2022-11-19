@@ -1,5 +1,6 @@
 package api.service;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.io.IoBuilder;
@@ -19,7 +20,8 @@ public abstract class AbstractBaseService {
 	private final Environment defaultEnv = Environment.LOCAL;
 
 	protected RequestSpecification getRequestSpec() {
-		var loggerPrintStream = IoBuilder.forLogger(logger).buildPrintStream();
+		var loggerPrintStream = IoBuilder.forLogger(logger).setLevel(Level.DEBUG)
+				.buildPrintStream();
 		return RestAssured.given().baseUri(defaultEnv.getBaseUrl())
 				.relaxedHTTPSValidation()
 				.filter(RequestLoggingFilter.logRequestTo(loggerPrintStream))
@@ -39,6 +41,7 @@ public abstract class AbstractBaseService {
 
 	protected Response post(TradingEndpoint tradingEndpoint, Object object) {
 		return pretendToBePostman()
+				.when()
 				.body(object)
 				.post(tradingEndpoint.getUrl(defaultEnv))
 				.then()
@@ -46,9 +49,10 @@ public abstract class AbstractBaseService {
 				.response();
 	}
 
-	protected Response get(TradingEndpoint tradingEndpoint) {
+	protected Response get(TradingEndpoint tradingEndpoint, String... params) {
 		return pretendToBePostman()
-				.get(tradingEndpoint.getUrl(defaultEnv))
+				.when()
+				.get(tradingEndpoint.getUrl(defaultEnv, params))
 				.then()
 				.extract()
 				.response();

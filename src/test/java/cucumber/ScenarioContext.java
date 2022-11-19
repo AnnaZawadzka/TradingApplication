@@ -20,8 +20,4 @@ public class ScenarioContext {
 	public Object getContext(String key) {
 		return scenarioContext.get(ContextKey.valueOfKey(key));
 	}
-
-	public Boolean isContains(String key) {
-		return scenarioContext.containsKey(ContextKey.valueOfKey(key));
-	}
 }
