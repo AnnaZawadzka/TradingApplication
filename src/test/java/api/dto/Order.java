@@ -35,4 +35,7 @@ public class Order {
 
 	@NotNull
 	int quantity;
+
+	@NotNull
+	String fulfilled;
 }

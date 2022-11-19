@@ -12,7 +12,7 @@ public enum TradingEndpoint {
 	SECURITY("/api/securities/%d"),
 	TRADES("/api/trades"),
 	TRADE("/api/trades/%d"),
-	TRADE_BUY_SELL("/api/trades/orderBuyId/%d/orderSellId/%d"),
+	TRADE_BUY_SELL("/api/trades/orderBuyId/{orderBuyId}/orderSellId/{orderSellId}"),
 	USERS("/api/users"),
 	USER("/api/users/%d");
 

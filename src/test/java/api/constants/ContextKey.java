@@ -6,7 +6,9 @@ import lombok.Getter;
 public enum ContextKey {
 	SECURITY_WSB("WSB"),
 	USER_DIAMOND("Diamond"),
-	USER_PAPER("Paper");
+	USER_PAPER("Paper"),
+	ORDER_BUY("buy"),
+	ORDER_SELL("sell");
 
 	public final String key;
 	private ContextKey(String key) {

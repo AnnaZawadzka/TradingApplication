@@ -16,7 +16,15 @@ public class OrderService extends AbstractBaseService {
 				.securityId(securityId)
 				.type(type)
 				.userId(userId)
+				.fulfilled("true")
 				.build();
-		return post(TradingEndpoint.SECURITIES, order);
+		return post(TradingEndpoint.ORDERS, order);
+	}
+
+	public Order getPostResponse(Response response) {
+		return response
+				.getBody()
+				.jsonPath()
+				.getObject(".", Order.class);
 	}
 }

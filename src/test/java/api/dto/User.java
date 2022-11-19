@@ -18,6 +18,7 @@ import lombok.ToString;
 public class User {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	String id;
+
 	@NotBlank
 	@ToString.Exclude
 	String password;
