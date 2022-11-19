@@ -7,9 +7,12 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = { "src/test/features" },
-		glue = { "src/test/java/stepDefinitions" },
-		plugin = { "pretty", "html:target/cucumber", })
+		features = { "classpath:/features" },
+		glue = { "classpath:/stepDefinitions" },
+		plugin = { "pretty", "html:target/cucumber",
+				"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+				"json:target/allure-report/cucumber-report.json"
+		})
 
 public class TestRunner {
 

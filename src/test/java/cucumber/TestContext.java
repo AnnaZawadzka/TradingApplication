@@ -1,6 +1,5 @@
 package cucumber;
 
-import api.constants.Environment;
 import api.service.OrderService;
 import api.service.SecurityService;
 import api.service.TradeService;
@@ -8,8 +7,6 @@ import api.service.UserService;
 
 public class TestContext {
 
-	//	public ScenarioContext scenarioContext;
-	private String BASE_URL = Environment.LOCAL.getBaseUrl();
 	private OrderService orderService;
 	private SecurityService securityService;
 	private TradeService tradeService;

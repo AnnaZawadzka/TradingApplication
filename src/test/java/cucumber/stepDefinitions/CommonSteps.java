@@ -1,6 +1,8 @@
 package cucumber.stepDefinitions;
 
-import api.constants.Context;
+import api.constants.ContextKey;
+import api.dto.Security;
+import api.dto.User;
 import api.service.SecurityService;
 import api.service.UserService;
 import cucumber.ScenarioContext;
@@ -22,23 +24,24 @@ public class CommonSteps {
 	}
 
 	@Given("^one security \"([^\"]*)\" and two users \"([^\"]*)\" and \"([^\"]*)\" exist$")
-	public void one_security_and_two_users_and_exist(String security, String user1, String user2) {
-		if (securityService.checkIfSecurityExist(security))
-			scenarioContext.setContext(Context.SECURITY_WSB_ID,
-					securityService.getSecurityIdByName(security));
-		else
-			securityService.postTheSecurity(security);
+	public void one_security_and_two_users_and_exist(String securityName, String user1,
+			String user2) {
+		if (!securityService.checkIfSecurityExist(securityName)) {
+			securityService.postTheSecurity(securityName);
+		}
+		Security security = securityService.getSecurityByName(securityName);
+		scenarioContext.setContext(securityName, security);
 
-		if (userService.checkIfUserExist(user1))
-			scenarioContext.setContext(Context.USER_DIAMOND_ID,
-					userService.getUserIdByName(user1));
-		else
+		if (!userService.checkIfUserExist(user1)) {
 			userService.postTheUser(user1, user1);
+		}
+		User diamond = userService.getUserByName(user1);
+		scenarioContext.setContext(user1, diamond);
 
-		if (userService.checkIfUserExist(user2))
-			scenarioContext.setContext(Context.USER_PAPER_ID,
-					userService.getUserIdByName(user2));
-		else
+		if (!userService.checkIfUserExist(user2)) {
 			userService.postTheUser(user2, user2);
+		}
+		User paper = userService.getUserByName(user2);
+		scenarioContext.setContext(user2, paper);
 	}
 }

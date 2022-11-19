@@ -32,15 +32,14 @@ public class UserService extends AbstractBaseService {
 				.getList(".", User.class);
 	}
 
-	public String getUserIdByName(String name) {
+	public User getUserByName(String userName) throws NoSuchElementException {
 		return getListOfUsers()
 				.stream()
 				.filter(user -> user
 						.getUsername()
-						.equals(name))
+						.equals(userName))
 				.findFirst()
 				.orElseThrow(() -> new NoSuchElementException(
-						String.format("The object with name %s not found", name)))
-				.getId();
+						String.format("The object with name %s not found", userName)));
 	}
 }

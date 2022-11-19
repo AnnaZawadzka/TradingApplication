@@ -1,4 +1,5 @@
 package api.service;
 
-public class TradeService {
+public class TradeService extends AbstractBaseService {
+
 }

@@ -1,7 +1,8 @@
 package cucumber.stepDefinitions;
 
-import api.constants.Context;
 import api.constants.OrderType;
+import api.dto.Security;
+import api.dto.User;
 import api.service.OrderService;
 import cucumber.ScenarioContext;
 import cucumber.TestContext;
@@ -21,13 +22,10 @@ public class OrdersSteps {
 	@When("^user \"([^\"]*)\" puts a \"([^\"]*)\" order for security \"([^\"]*)\" with a price of \"(\\d+)\" and quantity of \"(\\d+)\"$")
 	public void user_puts_a_order_for_security_with_a_price_of_and_quantity_of
 			(String user, String type, String security, int price, int qty) {
-		//TODO: tide up adding values to context
-		String securityId = scenarioContext.getContext(Context.findByValue(security))
-				.toString();
-		String userId = scenarioContext.getContext(Context.findByValue(user))
-				.toString();
+		var securityId = ((Security) scenarioContext.getContext(security)).getId();
 
+		var userId = ((User) scenarioContext.getContext(user)).getId();
 		orderService
-				.postTheOrder(price, qty, securityId, OrderType.valueOf(type), userId);
+				.postTheOrder(price, qty, securityId, OrderType.valueOfType(type), userId);
 	}
 }

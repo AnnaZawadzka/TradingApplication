@@ -29,15 +29,14 @@ public class SecurityService extends AbstractBaseService {
 				.getList(".", Security.class);
 	}
 
-	public String getSecurityIdByName(String name) {
+	public Security getSecurityByName(String securityName) throws NoSuchElementException{
 		return getListOfSecurities()
 				.stream()
 				.filter(security -> security
 						.getName()
-						.equals(name))
+						.equals(securityName))
 				.findFirst()
 				.orElseThrow(() -> new NoSuchElementException(
-						String.format("The object with name %s not found", name)))
-				.getId();
+						String.format("The object with name %s not found", securityName)));
 	}
 }

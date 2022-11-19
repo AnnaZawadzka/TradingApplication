@@ -2,26 +2,25 @@ package cucumber;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import api.constants.Context;
+import api.constants.ContextKey;
 
 public class ScenarioContext {
 
-	private Map<String, Object> scenarioContext;
+	private Map<ContextKey, Object> scenarioContext;
 
 	public ScenarioContext() {
-		scenarioContext = new HashMap<String, Object>();
+		scenarioContext = new HashMap<>();
 	}
 
-	public void setContext(Context key, Object value) {
-		scenarioContext.put(key.toString(), value);
+	public void setContext(String key, Object value) {
+		scenarioContext.put(ContextKey.valueOfKey(key), value);
 	}
 
-	public Object getContext(Context key) {
-		return scenarioContext.get(key.toString());
+	public Object getContext(String key) {
+		return scenarioContext.get(ContextKey.valueOfKey(key));
 	}
 
-	public Boolean isContains(Context key) {
-		return scenarioContext.containsKey(key.toString());
+	public Boolean isContains(String key) {
+		return scenarioContext.containsKey(ContextKey.valueOfKey(key));
 	}
 }
