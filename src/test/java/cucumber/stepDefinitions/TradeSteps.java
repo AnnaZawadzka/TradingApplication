@@ -33,4 +33,12 @@ public class TradeSteps {
 				tradePrice, 0.1);
 		assertEquals("Trade has a correct quantity", tradeBuySell.getQuantity(), tradeQty);
 	}
+
+	@Then("^a trade in not found$")
+	public void a_trade_in_not_found() {
+		var orderBuyId = ((Order) scenarioContext.getContext(ContextKey.ORDER_BUY.key)).getId();
+		var orderSellId = ((Order) scenarioContext.getContext(ContextKey.ORDER_SELL.key)).getId();
+		var response = tradeService.getTradeByBuySellIdResponse(orderBuyId, orderSellId);
+		assertEquals("Status code is 404", HttpStatus.SC_NOT_FOUND, response.getStatusCode());
+	}
 }
