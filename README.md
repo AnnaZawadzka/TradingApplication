@@ -25,14 +25,14 @@ mvn install
 ```
 
 3. Start the Trading Application listed in Requirements section
-4. To run specific test go to `features/chosenScenario.feature` and press `run
-5. To run a whole test suit go to `cucumber/runner/TestRunner.java` and run the `TestRunner`
+4. To run the specific test go to the package  `features/chosenScenario.feature` and press `Run`
+5. To run a whole test suit go to the package `cucumber/runner/TestRunner.java` and run the `TestRunner`
 
 ### Reporting
 
 The framework is using build in reporting function.
 To open the report:
 
-1. Run suite using `TestRunner`
-2. Go to `target` and find the file `cucumber.html`
+1. Run the test suite using `TestRunner`
+2. Go to the `target` and find the file `cucumber.html`
 3. Open that file using any browser
