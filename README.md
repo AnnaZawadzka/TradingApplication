@@ -28,6 +28,13 @@ mvn install
 4. To run the specific test go to the package  `features/chosenScenario.feature` and press `Run`
 5. To run a whole test suit go to the package `cucumber/runner/TestRunner.java` and run the `TestRunner`
 
+(added) 6. Or you can run command 
+
+```shell
+mvn test
+```
+from repository 
+
 ### Reporting
 
 The framework is using build in reporting function.
